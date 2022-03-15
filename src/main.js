@@ -2,10 +2,12 @@
 import * as all from "./data.js";
 import data from "./data/ghibli/ghibli.js";
 // import modalBox from "./modal.js";
-import filter from "./filter.js"
+import {filter,filterFilms} from "./filter.js"
+// import {filterGender} from "./filter.js"
 
 //Acceder a data de las peliculas
 const dataghibli = data.films;
+// const peopleghibli= dataghibli.people
 const sectionAfiche = document.getElementById("root");
 
 //HOME
@@ -13,11 +15,11 @@ const casita =() => {
 sectionAfiche.innerHTML = "";
 
 let sinCara = document.createElement("img");
-sinCara.setAttribute("src", '/icono ghibli.png');
+sinCara.setAttribute("src", 'icono ghibli.png');
 sinCara.setAttribute("class", "foto2");
 sectionAfiche.appendChild(sinCara);
 
-sinCara.setAttribute("src", '/Copia de icono ghibli 2.png');
+sinCara.setAttribute("src", 'Copia de icono ghibli 2.png');
 sinCara.setAttribute("class", "foto2");
 sectionAfiche.appendChild(sinCara);
 
@@ -175,20 +177,40 @@ const charactersSection = document.getElementsByClassName("characters-section");
 // EL evento change se  usa con elementos "section", "input" y "textarea", su estructura es la sgte:
 const filterSection = document.getElementById("filter-section"); // se declara la variable asociada al fitro y se agrega el evento a esa variable
 filterSection.addEventListener("change", (e) => {
-  let filterItem = e.currentTarget.value; //se llama a los valores de los elementos asociados al evento
+  let condicion = e.currentTarget.value; //se llama a los valores de los elementos asociados al evento
   // console.log(filterItem)//
-  let directorsByFilms = all.filterDirectors(filterItem, dataghibli); //se llaman a todos los elementos dentro de la función creada en data.js
+  let directorsByFilms = filter(dataghibli, condicion); //se llaman a todos los elementos dentro de la función creada en data.js
   showFilms(directorsByFilms); // se muestran las peliculas asociadas a los directores
   sectionAfiche.style.display = "flex"; // se muestran las peliculas ordenadas en flex
 });
 //filtrar personajes por peliculas
 const characterFilter = document.getElementById("persByFilm");
+// characterFilter.addEventListener("change", (e) => {
+//   let filterCharacter = e.currentTarget.value;
+//   let charactersByFilms = all.filterbyFilms(filterCharacter, dataghibli);
+//   showCharacters(charactersByFilms);
+//   sectionAfiche.style.display = "flex";
+// });
+
+
+
 characterFilter.addEventListener("change", (e) => {
-  let filterCharacter = e.currentTarget.value;
-  let charactersByFilms = all.filterbyFilms(filterCharacter, dataghibli);
+  let filmsItem = e.currentTarget.value;
+  let charactersByFilms = filterFilms(dataghibli, filmsItem);
   showCharacters(charactersByFilms);
   sectionAfiche.style.display = "flex";
 });
+
+//filtrar personajes por genero
+
+// const characterGender= document.getElementById('persByGender');
+// characterGender.addEventListener('change', (e) =>{
+//   let genderItem=e.currentTarget.value;
+//   let charactersByGender= filterGender(peopleghibli, genderItem);
+//   showCharacters(charactersByGender);
+//   sectionAfiche.style.display='flex';
+
+// })
 
 
 //SECCIÓN ORDENAR
